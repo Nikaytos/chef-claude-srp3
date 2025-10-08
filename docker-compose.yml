@@ -1,0 +1,7 @@
+services:
+  web:
+    image: ghcr.io/<YOUR_GITHUB_USER_OR_ORG>/<YOUR_REPO>:latest
+    container_name: chef-claude-web
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:4000:80"
