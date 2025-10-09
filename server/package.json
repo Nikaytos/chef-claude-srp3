@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev:server": "node index.js"
+    "dev:server": "node index.js",
+    "start": "node index.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.60.0",

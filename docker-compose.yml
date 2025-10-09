@@ -1,7 +1,21 @@
 services:
   web:
-    image: ghcr.io/<YOUR_GITHUB_USER_OR_ORG>/<YOUR_REPO>:latest
+    image: ghcr.io/nikaytos/chef-claude-srp3-web:latest
     container_name: chef-claude-web
     restart: unless-stopped
+    depends_on:
+      - api
     ports:
       - "127.0.0.1:4000:80"
+
+  api:
+    image: ghcr.io/nikaytos/chef-claude-srp3-api:latest
+    container_name: chef-claude-api
+    restart: unless-stopped
+    expose:
+      - "8787"
+    environment:
+      NODE_ENV: production
+      PORT: 8787
+      ACCESS_CODE: ${ACCESS_CODE}
+      HF_ACCESS_TOKEN: ${HF_ACCESS_TOKEN}
