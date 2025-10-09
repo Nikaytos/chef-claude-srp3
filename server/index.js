@@ -44,14 +44,14 @@ const SYSTEM_PROMPT = `
 You are an assistant that receives a list of ingredients that a user has and suggests a recipe they could make with some or all of those ingredients. You don't need to use every ingredient they mention in your recipe. The recipe can include additional ingredients they didn't mention, but try not to include too many extra ingredients. Format your response in markdown to make it easier to render to a web page
 `.trim();
 
-app.post("/api/auth/verify", (req, res) => {
+app.post("/auth/verify", (req, res) => {
   const provided = String(req.body?.codeword ?? "").trim();
   const expected = String(process.env.ACCESS_CODE ?? "").trim();
   if (expected && provided === expected) return res.json({ ok: true });
   return res.status(401).json({ ok: false });
 });
 
-app.post("/api/claude", requireCodeword, async (req, res) => {
+app.post("/claude", requireCodeword, async (req, res) => {
   try {
     const ingredientsString = toList(req.body);
     const msg = await anthropic.messages.create({
@@ -78,7 +78,7 @@ app.post("/api/claude", requireCodeword, async (req, res) => {
   }
 });
 
-app.post("/api/mistral", requireCodeword, async (req, res) => {
+app.post("/mistral", requireCodeword, async (req, res) => {
   try {
     const ingredientsString = toList(req.body);
     const response = await hf.chatCompletion({
@@ -100,7 +100,7 @@ app.post("/api/mistral", requireCodeword, async (req, res) => {
   }
 });
 
-app.get("/api/health", (_req, res) => res.json({ ok: true }));
+app.get("/health", (_req, res) => res.json({ ok: true }));
 app.listen(PORT, () =>
   console.log(`API server listening on http://localhost:${PORT}`)
 );
